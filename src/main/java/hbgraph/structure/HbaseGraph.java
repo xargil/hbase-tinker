@@ -83,10 +83,7 @@ public class HbaseGraph implements Graph, Graph.Iterators {
 
     @Override
     public Vertex addVertex(final Object... keyValues) {
-        return null;
+        throw Exceptions.vertexAdditionsNotSupported();
     }
 
-    public void commit() {
-
-    }
 }
