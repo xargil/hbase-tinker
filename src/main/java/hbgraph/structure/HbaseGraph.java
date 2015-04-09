@@ -6,6 +6,7 @@ import com.tinkerpop.gremlin.structure.Edge;
 import com.tinkerpop.gremlin.structure.Graph;
 import com.tinkerpop.gremlin.structure.Transaction;
 import com.tinkerpop.gremlin.structure.Vertex;
+import hbgraph.hbhandler.HBHandler;
 import org.apache.commons.configuration.Configuration;
 
 import java.io.IOException;
@@ -28,7 +29,10 @@ public class HbaseGraph implements Graph, Graph.Iterators {
         return new HbaseGraph(configuration);
     }
 
+    public final HBHandler hbHandler;
+
     public HbaseGraph(Configuration configuration) throws IOException {
+        hbHandler = new HBHandler(this, configuration);
     }
 
     @Override
@@ -73,7 +77,10 @@ public class HbaseGraph implements Graph, Graph.Iterators {
 
     @Override
     public Iterator<Vertex> vertexIterator(final Object... vertexIds) {
-        return null;
+        if (vertexIds == null || vertexIds.length == 0) {
+            return null;
+        }
+        return hbHandler.getVertices(null,vertexIds);
     }
 
     @Override
